@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Devops Meet Up Jenkins</title>
+    <meta charset="utf-8">
+    <link rel="icon" href="favicon.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="favicon.png" sizes="48x48" type="image/png">
+    <link rel="icon" href="favicon.png" sizes="62x62" type="image/png">
+    <link rel="icon" href="favicon.png" sizes="192x192" type="image/png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      body {
+        font-family: 'Lato', sans-serif;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Alegreya', serif;
+        font-weight: normal;
+        -webkit-margin-before: 0em;
+        -webkit-margin-after: 0em;
+      }
+
+      .remark-code, .remark-inline-code {
+        font-family: 'Source Code Pro', monospace;
+      }
+
+      .remark-code {
+        font-size: 12px;
+      }
+
+      @page {
+        size: 1210px 681px;
+        margin: 0;
+      }
+
+      @media print {
+        .remark-slide-scaler {
+          width: 100% !important;
+          height: 100% !important;
+          transform: scale(1) !important;
+          top: 0 !important;
+          left: 0 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script src="../../js/remark.min.js">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script>
+      WebFont.load({
+        google: {
+          families: ['Alegreya', 'Lato', 'Source Code Pro']
+        }
+      });
+
+      var slideshow = remark.create(
+        {
+          // ratio: '16:9',
+          ratio: '4:3',
+          sourceUrl: 'index.md',
+          // slideNumberFormat: 'Slide %current% / %total%',
+          highlightLanguage: "default",
+          highlightLines: true
+        }
+      );
+    </script>
+  </body>
+</html>
