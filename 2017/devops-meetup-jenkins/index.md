@@ -324,8 +324,9 @@ Lets hope it works
  ---
 .center[**Thanks**]
 
+---
 # For the lols
 
-"bro, you have been jenkins'ing longer than you have been dating" - Jan Niederhumer"
+"bro, you have been jenkins'ing longer than you have been dating" - grumpy dude I work with (not Jan)
 
 ![lols](lols.png)
