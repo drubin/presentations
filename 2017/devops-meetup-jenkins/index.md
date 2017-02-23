@@ -25,8 +25,16 @@ CI / CD What is it all about
 
 * Testing 
 * Building 
-* Deployment / Release managemt
+* Deployment / Release management
 * Adhoc
+
+???
+What tool does every one use?
+What do they use it for? Testing/Deployment/Adhoc tasks
+- Jenkins 
+- Travis 
+- Circle / Snap / * 
+- Team City / Bamboo / * 
 
 ---
 
@@ -35,6 +43,11 @@ CI / CD What is it all about
 ![job](job-config.png)
 
 ![xml](xml.png)
+
+???
+- Jenkins is OLD 
+- Been working with jenkins since 2009
+- My first expereince was with a 3 node cluster, Windows, OSX, Linux with 8 hour build jobs
 
 ---
 
@@ -47,26 +60,42 @@ CI / CD What is it all about
 * Complex Workflows impossible to build, duplication all over
 * Lots of plugins try to hack solutions
 
+???
+- Horor stories about loosing automation 
+- Unable to deploy / stand still 
+- CI should NEVER be a bottle neck
+
 ---
 
 ## Meet Blue Ocean
 ![Logo](blue-ocean.png)
 
+???
+- Shiny, built with pipelines / git workflow in mind
+- Visual Graph dependancy 
+- Cloudbees + huge funding 
+
 ---
 
 Defining Work flows
 
-![Logo](blue-ocean-demo.png)
+![Logo](projects.png)
 
-* Single track
-* Multi track
-* Parallel with automatic fan out - fan in setup
-* None blocking requests 
+???
+- Feestyle (legacy)
+- Single pipeline job, embeded code
+- SCM single 
+- SCM Multi
+- SCM Originsation 
 
 ---
 
 ## Jenkinsfile 
 ```groovy 
+// load pipeline functions
+@Library('github.com/drubin/jenkins-pipeline@master')
+def pipeline = new io.Pipeline()
+
 ansiColor('xterm') {
   node {
     // Set github status that the images could be built successfully
@@ -79,16 +108,26 @@ ansiColor('xterm') {
 }
 ```
 
-
 * Groovy
 * Access to proper programming language with closures/loops/threads/* 
-* Shared Java ecosystem with out the bloat 
+* Shared Java ecosystem without the bloat 
 * **Shared libs**
+
+???
+- Load from shared code
+- Automatic config based on github org
+- REAL Loops / Maps
 
 ---
 Complex Workflows
 
 ![Logo](blue-ocean.png)
+
+???
+- Fan in / Fan out 
+- Threaded parts/ blocking 
+- User input 
+- Multi machine single job 
 
 ---
 
@@ -96,6 +135,11 @@ Complex Workflows
 [http://localhost:8080/job/drubin/pipeline-syntax/](http://localhost:8080/job/drubin/pipeline-syntax/)
 
 ![Logo](script-generator.png)
+
+???
+- They have a script generator
+- Takes into account YOUR jenkins setup/env
+- Can be used to check syntax/docs (based on your jenkins version/plugins)
 
 ---
 ## User input 
@@ -132,6 +176,13 @@ if(pullRequest){
   return
 }
 ```
+???
+- Node blocks
+- Fly weight exectutors 
+- Timeouts
+- Limits (auth)
+- Stashing / Applying later on different nodes
+- Dealing with pull requests/branches i.e deploy on master
 ---
 
 # Credential Manager
@@ -153,9 +204,12 @@ withCredentials([
   """
 }
 ```
+???
+- Cheap Vault 
+- Encrypted using jenkins shared key 
+- Can add fine grained access/limits 
+- Shared across multiple machines / jobs 
 ---
-
-
 
 ## Locking
 
@@ -198,19 +252,23 @@ stage('Deploy') {
   }
 }
 ```
+???
+- If 2 users commit at same time 2 jobs are triggered
+- Paralel is great; what if you have a single DB/environment? 
+- Slow jobs queing up the system
 
 ---
 # Advice 
 
 * Jenkins files should define workflows not every CLI command
-* Leverage exsisting build tools such as bash/make/* and wrap the flow in jenkinsfile
+* Leverage exsisting build tools such as bash/make/* and wrap the flow in Jenkinsfile
 
 ** Debugging**
 * Via PR's
-* Local jenkins docker image
+* Local Jenkinfile's docker image
 * via unit tested shared libaries
 * Manually creating a pipeline jobs
-* Slower itteration time
+* Slower iteration time
 
 ---
 class: center, middle
@@ -219,6 +277,10 @@ Lets hope it works
 
 .... .... .... 
 
+???
+- Jenkins 
+- Terraform website 
+- Workflow
 
 ---
 
@@ -227,7 +289,7 @@ Lets hope it works
 * EC2 Slave plugin 
 * AnsiColor 
 * Timestamper
-* Locks milstone 
+* Locks milestone 
 * Blue Ocean 
 * Github / Gitlab / Bitbucket 
 * Google Login Plugin  / Github Login Plugin 
@@ -240,9 +302,12 @@ Lets hope it works
 # Links
 
 * Great Summary https://jenkins.io/projects/blueocean/ 
+* plugin examples info https://wilsonmar.github.io/jenkins2-pipeline/
 * fabric8io libs https://github.com/fabric8io/jenkins-pipeline-library
-* Locks and Milstones https://jenkins.io/blog/2016/10/16/stage-lock-milestone/
+* another https://github.com/funkwerk/jenkins-workflow
+* Locks and milestone https://jenkins.io/blog/2016/10/16/stage-lock-milestone/
 * Examples https://jenkins.io/doc/pipeline/examples/
+* Real world example https://github.com/lachie83/croc-hunter
 * Reference https://jenkins.io/doc/pipeline/steps/
 
 ** Presenation ** 
