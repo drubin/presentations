@@ -4,7 +4,7 @@ class: center, middle
 
 #### Automating the Automation
 
-![Logo](jenkins-good.png) 
+![Logo](jenkins-good.png)
 
 .left[
 David Rubin]
@@ -19,22 +19,22 @@ David Rubin]
 
 
 ---
-# Overview 
+# Overview
 
-CI / CD What is it all about 
+CI / CD What is it all about
 
-* Testing 
-* Building 
+* Testing
+* Building
 * Deployment / Release management
 * Adhoc
 
 ???
 What tool does every one use?
 What do they use it for? Testing/Deployment/Adhoc tasks
-- Jenkins 
-- Travis 
-- Circle / Snap / * 
-- Team City / Bamboo / * 
+- Jenkins
+- Travis
+- Circle / Snap / *
+- Team City / Bamboo / *
 
 ---
 
@@ -45,24 +45,24 @@ What do they use it for? Testing/Deployment/Adhoc tasks
 ![xml](xml.png)
 
 ???
-- Jenkins is OLD 
+- Jenkins is OLD
 - Been working with jenkins since 2009
 - My first expereince was with a 3 node cluster, Windows, OSX, Linux with 8 hour build jobs
 
 ---
 
-# Automation was the problem 
+# Automation was the problem
 
-* Not versioned 
-* Impossible to review 
-* Build jobs out of sync with code 
+* Not versioned
+* Impossible to review
+* Build jobs out of sync with code
 * Dependant jobs configured in different places
 * Complex Workflows impossible to build, duplication all over
 * Lots of plugins try to hack solutions
 
 ???
-- Horor stories about loosing automation 
-- Unable to deploy / stand still 
+- Horor stories about loosing automation
+- Unable to deploy / stand still
 - CI should NEVER be a bottle neck
 
 ---
@@ -72,8 +72,8 @@ What do they use it for? Testing/Deployment/Adhoc tasks
 
 ???
 - Shiny, built with pipelines / git workflow in mind
-- Visual Graph dependancy 
-- Cloudbees + huge funding 
+- Visual Graph dependancy
+- Cloudbees + huge funding
 
 ---
 
@@ -84,14 +84,14 @@ Defining Work flows
 ???
 - Feestyle (legacy)
 - Single pipeline job, embeded code
-- SCM single 
+- SCM single
 - SCM Multi
-- SCM Originsation 
+- SCM Originsation
 
 ---
 
-## Jenkinsfile 
-```groovy 
+## Jenkinsfile
+```groovy
 // load pipeline functions
 @Library('github.com/drubin/jenkins-pipeline@master')
 def pipeline = new io.Pipeline()
@@ -109,8 +109,8 @@ ansiColor('xterm') {
 ```
 
 * Groovy
-* Access to proper programming language with closures/loops/threads/* 
-* Shared Java ecosystem without the bloat 
+* Access to proper programming language with closures/loops/threads/*
+* Shared Java ecosystem without the bloat
 * **Shared libs**
 
 ???
@@ -124,10 +124,10 @@ Complex Workflows
 ![Logo](blue-ocean.png)
 
 ???
-- Fan in / Fan out 
-- Threaded parts/ blocking 
-- User input 
-- Multi machine single job 
+- Fan in / Fan out
+- Threaded parts/ blocking
+- User input
+- Multi machine single job
 
 ---
 
@@ -142,19 +142,19 @@ Complex Workflows
 - Can be used to check syntax/docs (based on your jenkins version/plugins)
 
 ---
-## User input 
+## User input
 
 ```groovy
-// Do not allocate a node as this is a blocking request and should be run on light weight executor 
+// Do not allocate a node as this is a blocking request and should be run on light weight executor
 def userInputEnv = null
 //Out side node block to be none blcking
 timeout(time: 1, unit: 'HOURS') {
-  userInput = input message: 'Are you sure you would like to apply these to production?', 
+  userInput = input message: 'Are you sure you would like to apply these to production?',
     parameters: [string(defaultValue: '', description: 'Your name', name: 'name')]
 }
 ```
 
-## Stashing 
+## Stashing
 
 ```groovy
   // Save plan output for future so they can be compared
@@ -166,7 +166,7 @@ timeout(time: 1, unit: 'HOURS') {
   unstash name: 'plans'
 ```
 
-## Pullrequests 
+## Pullrequests
 
 ```groovy
 // we don't release or ask for user input on pull requests
@@ -178,7 +178,7 @@ if(pullRequest){
 ```
 ???
 - Node blocks
-- Fly weight exectutors 
+- Fly weight exectutors
 - Timeouts
 - Limits (auth)
 - Stashing / Applying later on different nodes
@@ -190,12 +190,12 @@ if(pullRequest){
 ![Logo](credentials.png)
 
 * Removes secure credentails from build scripts
-* Single place to update when they change/cycle 
+* Single place to update when they change/cycle
 * DRY principles applied to `security`
 
 ```groovy
 withCredentials([
-      usernamePassword(credentialsId: 'aws-keys', 
+      usernamePassword(credentialsId: 'aws-keys',
       passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')
 ]) {
   sh """
@@ -205,10 +205,10 @@ withCredentials([
 }
 ```
 ???
-- Cheap Vault 
-- Encrypted using jenkins shared key 
-- Can add fine grained access/limits 
-- Shared across multiple machines / jobs 
+- Cheap Vault
+- Encrypted using jenkins shared key
+- Can add fine grained access/limits
+- Shared across multiple machines / jobs
 ---
 
 ## Locking
@@ -254,18 +254,18 @@ stage('Deploy') {
 ```
 ???
 - If 2 users commit at same time 2 jobs are triggered
-- Paralel is great; what if you have a single DB/environment? 
+- Paralel is great; what if you have a single DB/environment?
 - Slow jobs queing up the system
 
 ---
-# Advice 
+# Advice
 
 * Jenkins files should define workflows not every CLI command
 * Leverage exsisting build tools such as bash/make/* and wrap the flow in Jenkinsfile
 
 ** Debugging**
-* Via PR's + Squash commit 
-* Local Jenkinfile's docker image 
+* Via PR's + Squash commit
+* Local Jenkinfile's docker image
 
 ```
 docker run -p 8080:8080 -p 50000:50000 -v ~/tmp/jenkins:/var/jenkins_home jenkins```
@@ -277,36 +277,36 @@ docker run -p 8080:8080 -p 50000:50000 -v ~/tmp/jenkins:/var/jenkins_home jenkin
 
 ---
 class: center, middle
-#Live Demo 
+#Live Demo
 Lets hope it works
 
-.... .... .... 
+.... .... ....
 
 ???
-- Jenkins 
-- Terraform website 
+- Jenkins
+- Terraform website
 - Workflow
 
 ---
 
-# Useful plugins 
+# Useful plugins
 
-* EC2 Slave plugin 
-* AnsiColor 
+* EC2 Slave plugin
+* AnsiColor
 * Timestamper
-* Locks milestone 
-* Blue Ocean 
-* Github / Gitlab / Bitbucket 
-* Google Login Plugin  / Github Login Plugin 
+* Locks milestone
+* Blue Ocean
+* Github / Gitlab / Bitbucket
+* Google Login Plugin  / Github Login Plugin
 * Mask Passwords plugin
 * Shelve Project
-* Slack Notification plugin 
+* Slack Notification plugin
 
 ---
 
 # Links
 
-* Great Summary https://jenkins.io/projects/blueocean/ 
+* Great Summary https://jenkins.io/projects/blueocean/
 * plugin examples info https://wilsonmar.github.io/jenkins2-pipeline/
 * fabric8io libs https://github.com/fabric8io/jenkins-pipeline-library
 * another https://github.com/funkwerk/jenkins-workflow
@@ -315,11 +315,17 @@ Lets hope it works
 * Real world example https://github.com/lachie83/croc-hunter
 * Reference https://jenkins.io/doc/pipeline/steps/
 
-** Presenation ** 
+** Presenation **
 * Pipeline Demo https://github.com/drubin/jenkins-terraform-demo
-* Slide source https://github.com/drubin/presentations/ 
-* Slides https://drubin.github.io/presentations/ 
+* Slide source https://github.com/drubin/presentations/
+* Slides https://drubin.github.io/presentations/
 
 
- --- 
+ ---
 .center[**Thanks**]
+
+# For the lols
+
+"bro, you have been jenkins'ing longer than you have been dating" - Jan Niederhumer"
+
+![lols](lols.png)
