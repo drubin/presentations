@@ -264,11 +264,16 @@ stage('Deploy') {
 * Leverage exsisting build tools such as bash/make/* and wrap the flow in Jenkinsfile
 
 ** Debugging**
-* Via PR's
-* Local Jenkinfile's docker image
-* via unit tested shared libaries
-* Manually creating a pipeline jobs
+* Via PR's + Squash commit 
+* Local Jenkinfile's docker image 
+
+```
+docker run -p 8080:8080 -p 50000:50000 -v ~/tmp/jenkins:/var/jenkins_home jenkins```
+
+* Via unit tested shared libaries
+* Manually creating a pipeline job with embeded Jenkinsfile
 * Slower iteration time
+* Keep them isolated to "workflow" not scripts/params
 
 ---
 class: center, middle
