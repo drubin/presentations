@@ -63,22 +63,16 @@ class: center, middle
 # Compromises 
 
 ![Peg](peg.jpg)
+
+???
+- Some times you just need to make it work
+- Trying to fit a legacy app into containers might not be easy
 ---
-class: center, middle
+class: center
 # Monitor Everything 
 
-### Newrelic
-### Sysdig Cloud
-
-Exploring prometheus
-
----
-## Load Testing
-
-![Goad](goad.gif)
----
-class: center, middle
-## Sometimes your monitoring lies 
+--
+### Sometimes your monitoring lies 
 
 ....
 
@@ -86,8 +80,12 @@ class: center, middle
 vs
 #### DNS
 
-*60k DNS queries per second per node*
+*60k DNS queries per second per node* 
 
+---
+## Load Test Every thing
+
+![Goad](goad.gif)
 ---
 # Docker Layers 
 
@@ -134,7 +132,7 @@ Order matters, leveraged Caching
 * No SSH 
 * Imutable 
 * No writeable filessytem (well its wiped every deploy)
-* No *tail -f* centeral log system
+* No *tail -f* (centeral log system)
 * Build tools, not run books/docs 
 
 ---
