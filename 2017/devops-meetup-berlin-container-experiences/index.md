@@ -19,12 +19,10 @@ David Rubin]
 
 # Me 
 ![Me](tablemountain.jpg) 
-
----
-
-# History 
-![History](history.png) 
-
+???
+- From Cape Town 
+- Office by the ocean
+- 
 ---
 
 # Stats 
@@ -51,11 +49,6 @@ class: center, middle
 * Versionable 
 * Auditable
 ---
-
-# Compromises 
-
-![Peg](peg.jpg)
----
 class: center, middle
 
 # Consistency
@@ -64,15 +57,94 @@ class: center, middle
 *https://en.wikipedia.org/wiki/Worse_is_better*
 
 ---
+class: center, middle
+# Optimise for change 
+---
+# Compromises 
 
+![Peg](peg.jpg)
+---
+class: center, middle
+# Monitor Everything 
+
+### Newrelic
+### Sysdig Cloud
+
+Exploring prometheus
 
 ---
+## Load Testing
 
+![Goad](goad.gif)
+---
+class: center, middle
+## Sometimes your monitoring lies 
+
+....
+
+#### Memcache 
+vs
+#### DNS
+
+*60k DNS queries per second per node*
+
+---
+# Docker Layers 
+
+Simple 
+
+```docker   
+FROM python
+ADD src .
+RUN pip install -r requirements.txt --no-cache-dir
+```  
+
+Better
+
+```docker
+FROM python
+ADD src/requirements.txt .
+RUN pip install -r requirements.txt --no-cache-dir
+ADD src .
+```
+
+Order matters, leveraged Caching 
+
+---
+## Local Development 
+
+* Minikube 
+* Like Vagrant for kubernetes 
+* Single Node cluster 
+* Missing platform features such as Loadbalancers
+* Replacement for Docker Compose 
+
+---
+# Continous Delivery 
+
+* Jenkins build pipelines 
+* Multi node builds 
+* All in EC2 
+* Automated deploys
+* Manual approval proccess to production
+
+---
+# Gotchas
+
+* No SSH 
+* Imutable 
+* No writeable filessytem (well its wiped every deploy)
+* No *tail -f* centeral log system
+* Build tools, not run books/docs 
+
+---
 # Links
 
 ** Presenation ** 
 * Slides https://drubin.github.io/presentations/ 
-
+* Goad https://github.com/goadapp/goad 
+* MiniKube https://github.com/kubernetes/minikube 
+* Jenkins Pipelines https://drubin.github.io/presentations/2017/devops-meetup-jenkins/#1 
 
  --- 
 .center[**Thanks**]
