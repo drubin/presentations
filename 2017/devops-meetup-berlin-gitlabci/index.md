@@ -16,14 +16,6 @@ David Rubin]
 [<i class="fa fa-linkedin" aria-hidden="true"> David Rubin</i>](https://www.linkedin.com/in/davidrub)]
 .left[
 [<i class="fa fa-link" aria-hidden="true"> unu</i>](https://www.unumotors.com)]
----
-
-# Why 
-* Built into GitLab seemless integration with version control
-* Native docker integration
-* Its lightweight
-* Easy setup
-* Developer focused
 
 ---
 
@@ -37,6 +29,9 @@ David Rubin]
 
 ![Environments](environments.png) 
 ---
+
+# yaml anchor
+
 
 Extenable yaml file .gitlab-ci.yml
 
@@ -155,6 +150,7 @@ fi
 
 ** Presenation ** 
 * Slides https://drubin.github.io/presentations/ 
+* [yaml anchor](http://blog.daemonl.com/2016/02/yaml.html)
 * [First docker export / import](http://codenow.github.io/blog/distributing-docker-cache-across-hosts)
 * [Cache bug](https://github.com/moby/moby/issues/20316)
 * [Fixed in v17.03.0-ce](https://github.com/moby/moby/pull/31189)
