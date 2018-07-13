@@ -111,7 +111,7 @@ docker pull service-image:latest
 --
 
 ```
-# Explicitly tell docker to leverage the cache from the remotely built image
+# Explicitly tell docker to leverage the cache from the image registry
 docker build --cache-from service-image:latest  -t service-image:$CI_BUILD_REF  .
 ```
 
