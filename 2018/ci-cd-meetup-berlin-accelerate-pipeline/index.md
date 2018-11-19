@@ -38,6 +38,7 @@ class: center, middle
 
 ---
 class: center, middle
+## Magical Moment
 
 ![Logo](Brum_Brum_Wooden_Balance_Bike_for_Kids.jpg)
 
@@ -45,14 +46,14 @@ class: center, middle
 
 ---
 class: center, middle
-
+## Training Wheels
 ![Logo](768px-Helmeted_boy_on_training_wheels.jpg)
 
 .footer[Dawn Endico from Menlo Park, California [CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0)], via Wikimedia Commons]
 
 ---
 class: center, middle
-
+## Professional
 ![Logo](640px-Bicycle_race_scene,_1895.jpg)
 
 .footer[Calvert Lithographic Co., Detroit, Michigan [Public domain], via Wikimedia Commons]
@@ -146,7 +147,7 @@ Company standards.....
 Read 1000 pages of outdated wiki docs
 
 ---
-# Training Wheels
+# ???
 --
 
 .gitlab-ci.yml
