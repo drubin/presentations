@@ -2,7 +2,7 @@ class: center, middle
 
 # Gitlab CI
 
-#### Engineering Workflows
+#### Engineering Experiences
 
 ![Logo](logo.png) 
 
@@ -25,7 +25,11 @@ class: center, middle
 ---
 class: center, middle
 
-# CI is an attempt to overcome this.
+## CI is an attempt to overcome this.
+
+### Lets stand on the shoulders of giants
+
+Reuseable company workflows
 
 ---
 class: center, middle
@@ -61,25 +65,39 @@ class: center, middle
 ---
 class: middle
 ## Engineer The Journey
-
-* **First Impression**
-  * Readme
+You can control experience
+1. **Magical Moment**
+  * Homepage
   * High Level features and functions
-  * Engineer for success 
-* **Quickstart designed to “just work”**
-  * Training wheels
+  * Simple usecase that always works
+2. **Training Wheels**
+  * Quickstart designed to “just work”
   * Take the quickstart and make it your own
   * FAQ of potential failure’s
-* **Path to becoming an expert**
+3. **Profesional**
   * Low level API docs 
   * Advanced features 
   * How to deal with exceptions
 ---
 class: center, middle
 ### Treat Gitlab as a product not a tool
+---
+class: middle
+## Gitlab Auto Devops
+
+1. **Magical Moment**
+  * Check! Winning
+2. **Training Wheels**
+  * Okish... 
+3. **Profesional**
+  * Failed
+  * Didn't exsist when I did this
+  * Limited custom configuration
+  * All or nothing approach
+  * Not production ready
+  
 
 ---
-class:  middle
 ### Simple Node Application
 
 ```
@@ -91,6 +109,7 @@ tree
 └── package.json
 
 0 directories, 4 files```
+--
 
 index.js
 ```js
@@ -99,6 +118,7 @@ const app = express()
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(3000)
 ```
+--
 
 DockerFile
 ```docker
@@ -107,16 +127,27 @@ WORKDIR /app
 ADD package.json package-lock.json /app/
 RUN npm install --production
 ADD . /app
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
 
 ```
 ---
-class: center, middle
+class: center
 ## Now what? 
+--
+
+Tests, Linting , Docker build, Docker release 
+
+--
+
+Company standards.....
+
+--
+
+Read 1000 pages of outdated wiki docs
 
 ---
-class: middle
-## Release flow
+# Training Wheels
+--
 
 .gitlab-ci.yml
 ```yml
@@ -134,10 +165,15 @@ include:
 # node version to run tests
 image: node:10.13-alpine
 ```
+
+--
+
 ![Logo](node-pr-pipeline.png) 
+
+--
+
 ![Logo](node-master-pipeline.png)
 ---
-class: middle
 ## ci-base
 ```
 ├── .gitlab-ci.yml
@@ -153,6 +189,13 @@ class: middle
 └── includes
     ├── docker.yml
     └── node.yml
+```
+docker-build
+```sh
+#!/bin/sh
+docker pull "$CI_REGISTRY_IMAGE:latest" || true
+docker build --cache-from "$CI_REGISTRY_IMAGE:latest" --tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA" .
+
 ```
 .footer[https://gitlab.com/drubin/ci-base/]
 ---
@@ -206,28 +249,37 @@ Pipeline Status
 ---
 class: middle, center
 
-# Mind blown 
+# Inception
+
+--
 
 Using gitlab-ci to test your gitlab-ci?
+ 
+--
 
-Unit testing your testing tools?
+Automated testing for your testing tools?
+
+--
 
 Can some one say recursion recursively?
 
-
 ---
-class: middle
 ##  Node Workflow
 ```yaml
 # Include workflows 
 include:
  - https://gitlab.com/drubin/ci-base/raw/v0.1/includes/node.yml
  ```
+--
 
 ```yaml
 .references-node:
   node-test: &node-test
-    #...
+    # snipped ...
+    cache:
+      paths:
+        - node_modules
+    
 
 install:
   stage: setup
@@ -255,6 +307,9 @@ test:
 include:
  - https://gitlab.com/drubin/ci-base/raw/v0.1/includes/docker.yml
  ```
+
+--
+
 ```yaml
 # Workflows 
 build latest:
@@ -284,10 +339,7 @@ class: middle
 tree
 .
 ├── .gitlab-ci.yml
-├── Dockerfile
-├── index.js
-├── package-lock.json
-└── package.json
+....
 
 0 directories, 5 files
 ```
@@ -310,3 +362,37 @@ include:
 image: node:10.13-alpine
 ```
 ![Logo](node-pr-pipeline.png) 
+---
+class: center, middle
+## Human beings, who are almost unique in having the ability to learn from the experience of others, are also remarkable for their apparent disinclination to do so.
+  \-  Douglas Adams, Last Chance to See
+---
+class: center, middle
+
+## CI is an attempt to overcome this.
+
+### Lets stand on the shoulders of giants
+---
+
+# Links
+
+** Presenation ** 
+* Slides https://drubin.github.io/presentations/ 
+* [yaml anchor](http://blog.daemonl.com/2016/02/yaml.html)
+* [Gitlab's Yaml](https://docs.gitlab.com/ce/ci/yaml/)
+* [ci-base](https://gitlab.com/drubin/ci-base/)
+* [ci-node-demo](https://gitlab.com/drubin/ci-node-demo)
+* [breaking PR change](https://gitlab.com/drubin/ci-base/merge_requests/2/diffs)
+
+
+.center[**Thanks**]
+
+
+David Rubin  
+[<i class="fa fa-twitter" aria-hidden="true"> drubin87</i>](http://twitter.com/drubin87)  
+[<i class="fa fa-github" aria-hidden="true"> drubin</i>](http://github.com/drubin)  
+[<i class="fa fa-linkedin" aria-hidden="true"> David Rubin</i>](https://www.linkedin.com/in/drubin87)  
+[<i class="fa fa-link" aria-hidden="true"> garden.io</i>](https://garden.io) 
+
+  --- 
+
