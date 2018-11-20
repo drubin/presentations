@@ -17,24 +17,46 @@ David Rubin]
 .left[
 [<i class="fa fa-link" aria-hidden="true"> garden.io</i>](https://garden.io)]
 
+???
+* Name, South African 
+* SRE and Garden.io 
+* Gitlab vs Jenkins vs Travis/Circle/hosted?
+* Operator vs User
+
 ---
 class: center, middle
 ### Human beings, who are almost unique in having the ability to learn from the experience of others, are also remarkable for their apparent disinclination to do so.
   \-  Douglas Adams, Last Chance to See
 
----
-class: center, middle
-
-## CI is an attempt to overcome this.
-
-### Lets stand on the shoulders of giants
-
-Reuseable company workflows
+???
+* Humans are special in that they can learn from eachother 
+* Whats funny is they often don't want to
 
 ---
 class: center, middle
 
-# Learning to ride a bike?
+## CI lets us learn from our selves 
+What if we could learn from each other?
+
+---
+class: center, middle
+
+## Stand on the shoulders of giants
+
+???
+
+* CI should be an attempt to overcome this.
+
+---
+class: center, middle
+
+# Learning to ride a bike
+
+???
+
+* When did you learn? 
+* How would you teach me?
+* Where would you start? 
 
 ---
 class: center, middle
@@ -66,14 +88,14 @@ class: center, middle
 ---
 class: middle
 ## Engineer The Journey
-You can control experience
+You *can* control the experience
 1. **Magical Moment**
   * Homepage
   * High Level features and functions
-  * Simple usecase that always works
+  * Simple usecases that always work
 2. **Training Wheels**
   * Quickstart designed to “just work”
-  * Take the quickstart and make it your own
+  * Take the quickstart and own it
   * FAQ of potential failure’s
 3. **Profesional**
   * Low level API docs 
@@ -81,23 +103,27 @@ You can control experience
   * How to deal with exceptions
 ---
 class: center, middle
-### Treat Gitlab as a product not a tool
+### Treat Gitlab as a product/service not a tool.
 ---
-class: middle
 ## Gitlab Auto Devops
 
 1. **Magical Moment**
   * Check! Winning
+--
+
 2. **Training Wheels**
   * Okish... 
+--
+
 3. **Profesional**
   * Failed
   * Didn't exsist when I did this
   * Limited custom configuration
   * All or nothing approach
   * Not production ready
-  
-
+---
+class: center, middle
+## So what then?
 ---
 ### Simple Node Application
 
@@ -129,27 +155,20 @@ ADD package.json package-lock.json /app/
 RUN npm install --production
 ADD . /app
 CMD ["node", "index.js"]
-
 ```
 ---
-class: center
-## Now what? 
---
+class: center, middle
 
-Tests, Linting , Docker build, Docker release 
+\- Tests, Linting , Docker build, Docker release 
 
---
+\- Company standards.....
 
-Company standards.....
+\- Read 1000 pages of outdated wiki docs
 
---
-
-Read 1000 pages of outdated wiki docs
+### ?
 
 ---
-# ???
---
-
+## Company Workflows
 .gitlab-ci.yml
 ```yml
 # Opt-in stages
@@ -166,7 +185,6 @@ include:
 # node version to run tests
 image: node:10.13-alpine
 ```
-
 --
 
 ![Logo](node-pr-pipeline.png) 
@@ -174,96 +192,6 @@ image: node:10.13-alpine
 --
 
 ![Logo](node-master-pipeline.png)
----
-## ci-base
-```
-├── .gitlab-ci.yml
-├── Dockerfile
-├── README.md
-├── bin
-│   ├── docker-build
-│   ├── docker-help
-│   ├── docker-login
-│   ├── docker-push
-│   ├── workflow-master
-│   └── workflow-tags
-└── includes
-    ├── docker.yml
-    └── node.yml
-```
-docker-build
-```sh
-#!/bin/sh
-docker pull "$CI_REGISTRY_IMAGE:latest" || true
-docker build --cache-from "$CI_REGISTRY_IMAGE:latest" --tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA" .
-
-```
-.footer[https://gitlab.com/drubin/ci-base/]
----
-## .center[ci-base/.gitlab-ci.yml]
-
-```yaml
-.references:
-  # .... snipped
-  test-script: &test-script
-    stage: test
-    <<: *docker-image
-    <<: *use-docker
-    before_script:
-      - ./bin/docker-login
-      - TEST_SCRIPT="${CI_JOB_NAME##* }" # Last part of job's name is the tests name
-      - export PATH="$PWD/bin:$PATH" # Export bin/ into path since not running custom image
-      - ./bin/$TEST_SCRIPT
-
-# Integration tests
-test docker-build:
-  <<: *test-script
-  script:
-    # Verify image is built
-    - docker inspect "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
-
-# Test workflows
-build latest:
-  stage: release
-  <<: *docker-image
-  <<: *use-docker
-  script:
-    # manually add scripts to path since we aren't using pre-built images
-    - export PATH="$PWD/bin:$PATH"
-    - workflow-master
-  only:
-    - master
-```
-.footer[https://gitlab.com/drubin/ci-base/blob/master/.gitlab-ci.yml]
-
----
-## Changeset for bin/docker-build
-```diff
-docker pull "$CI_REGISTRY_IMAGE:latest" || true
-- docker build --cache-from "$CI_REGISTRY_IMAGE:latest" --tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA" .
-+ docker build --cache-from "$CI_REGISTRY_IMAGE:latest" --tag "$CI_REGISTRY_IMAGE:broken" .
-```
-
-Pipeline Status
-
-![ci-base](ci-base-broken-pr.png)
----
-class: middle, center
-
-# Inception
-
---
-
-Using gitlab-ci to test your gitlab-ci?
- 
---
-
-Automated testing for your testing tools?
-
---
-
-Can some one say recursion recursively?
-
 ---
 ##  Node Workflow
 ```yaml
@@ -281,7 +209,6 @@ include:
       paths:
         - node_modules
     
-
 install:
   stage: setup
   script:
@@ -302,6 +229,7 @@ test:
 ```
 ![Logo](node-pr-pipeline.png) 
 ---
+
 ##  Docker Workflow
 ```yaml
 # Include workflows 
@@ -333,6 +261,105 @@ build tags:
 ```
 ![Logo](node-master-pipeline.png)
 ---
+
+## .center[CI Base]
+### tree
+```
+├── .gitlab-ci.yml
+├── Dockerfile
+├── README.md
+├── bin
+│   ├── docker-build
+│   ├── docker-help
+│   ├── docker-login
+│   ├── docker-push
+│   ├── workflow-master
+│   └── workflow-tags
+└── includes
+    ├── docker.yml
+    └── node.yml
+```
+
+### docker-build
+
+with distributed caching
+```sh
+#!/bin/sh
+docker pull "$CI_REGISTRY_IMAGE:latest" || true
+docker build --cache-from "$CI_REGISTRY_IMAGE:latest" --tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA" .
+```
+.footer[https://gitlab.com/drubin/ci-base/]
+???
+* This is so you can bundle shared scripts/tools 
+* Predefined conventions
+* "Just works"
+---
+## .center[ci-base/.gitlab-ci.yml]
+
+```yaml
+# Reuseable variables
+.references:
+  # .... snipped
+  test-script: &test-script
+    stage: test
+    <<: *docker-image
+    <<: *use-docker
+    before_script:
+      - TEST_SCRIPT="${CI_JOB_NAME##* }" # script last part of job name
+      - ./bin/$TEST_SCRIPT
+```
+--
+```yaml
+# Unit Tests
+test docker-build:
+  <<: *test-script
+  script:
+    # (assert) verify image is built 
+    - docker inspect "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
+```
+--
+```yaml
+# Integration Tests
+build latest:
+  stage: release
+  <<: *docker-image
+  <<: *use-docker
+  script:
+    # manually add scripts to path since we aren't using pre-built images
+    - workflow-master
+  only:
+    - master
+```
+.footer[https://gitlab.com/drubin/ci-base/blob/master/.gitlab-ci.yml]
+
+---
+## Changeset for bin/docker-build
+```diff
+docker pull "$CI_REGISTRY_IMAGE:latest" || true
+- docker build --cache-from "$CI_REGISTRY_IMAGE:latest" --tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA" .
++ docker build --cache-from "$CI_REGISTRY_IMAGE:latest" --tag "$CI_REGISTRY_IMAGE:broken" .
+```
+--
+Pipeline Status
+
+![ci-base](ci-base-broken-pr.png)
+---
+class: middle, center
+
+# Inception
+
+--
+
+Using gitlab-ci to test your gitlab-ci?
+ 
+--
+
+Automated testing for your testing tools?
+
+--
+
+Can some one say recursion?
+---
 class: middle
 ## Simple Node application
 
@@ -362,7 +389,7 @@ include:
 # node version to run tests
 image: node:10.13-alpine
 ```
-![Logo](node-pr-pipeline.png) 
+![Logo](node-master-pipeline.png) 
 ---
 class: center, middle
 ## Human beings, who are almost unique in having the ability to learn from the experience of others, are also remarkable for their apparent disinclination to do so.
@@ -370,9 +397,7 @@ class: center, middle
 ---
 class: center, middle
 
-## CI is an attempt to overcome this.
-
-### Lets stand on the shoulders of giants
+## Standing on the shoulders of giants
 ---
 
 # Links
